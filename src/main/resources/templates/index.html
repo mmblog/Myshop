@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Inicio</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+	<h1>Bienvenidos a mi tienda</h1>
+	<p>
+		Visita el <a href="catalog">catálogo</a> de productos
+	</p>
+	<!-- p>
+		Visita el <a href="catalog/tecnologia">catálogo</a> de productos de
+		tecnología
+	</p> -->
+	<p>
+		Visita el <a href="catalog?category=tecnologia">catálogo</a> de
+		productos de tecnología
+	</p>
+
+	<label for="categoria">Introduzca categoría a consultar:</label>
+	<input type="text" id="categoria" name="categoria" required
+		maxlength="20" size="20">
+	<a id="enlaceCat" class="target" href="#">Consultar esa categoría</a>
+
+
+	<div>
+	<label for="id">Incrementar precio del producto con ID:</label>
+	<input type="text" id="id" name="idName" required maxlength="20"
+		size="20">
+	<label for="precio">Precio:</label>
+	<input type="text" id="precio" name="precioName" required
+		maxlength="20" size="20">
+	
+	<button id="incrementarPrecio">Incrementar</button>
+	<div id="div1"><h2></h2></div>
+	</div>
+	
+	<script>
+
+$(document).ready(function() {
+    $('#enlaceCat').click(function() {
+      var newurl = "catalog?category=" +$('#categoria').val();
+      $('a.target').attr('href', newurl);
+    });
+});
+
+//funciona
+ $(document).ready(function(){
+	  $("button").click(function(){
+	    $.ajax({method: "PUT",
+			  url: "productoactualizado/"+$('#id').val(),
+			  data: JSON.stringify({id:$('#id').val(),  price: $('#precio').val() }),
+			  contentType: "application/json", 
+			  success: function(){
+				  window.location.href='productoactualizado/'+$('#id').val();
+	      			//$("#div1").html('Producto '+$('#id').val()+' actualizado. Incrementado en '+$('#precio').val());
+	    }});
+	  });
+	});  
+
+//funiona también, pero habría que ver cómo esperar a que haga la actualización.
+/*  function myDisplayJS() {
+	  let myPromise = new Promise(function(resolve) {
+		  fetch('productoactualizado/'+$('#id').val(), {
+		      method: 'PUT',
+		      headers: {
+		        'Content-type': 'application/json'
+		      },
+		      body: JSON.stringify({id: $('#id').val(), price : $('#precio').val()})
+		    });
+	  });
+
+	  document.getElementById("div1").innerHTML ='Producto actualizado';
+	}  */
+	
+/* async function sendPutDataJS(){
+	  
+	    // Awaiting fetch which contains method,
+	    // headers and content-type and body
+	    const response = fetch('catalog/'+$('#id').val(), {
+	      method: 'PUT',
+	      headers: {
+	        'Content-type': 'application/json'
+	      },
+	      body: {id: $('#id').val(), price : $('#precio').val()}
+	    });
+	      
+	    // Awaiting response.json()
+	    //const resData = await response.json();
+} */
+
+</script>
+</body>
+
+</html>
